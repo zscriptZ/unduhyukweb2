@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirect Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #555;
+        }
+        .timer {
+            font-weight: bold;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Anda akan diarahkan segera...</h1>
+    <p>Jika Anda tidak diarahkan dalam <span class="timer">10</span> detik, klik <a href="#" id="directLink">di sini</a>.</p>
+
+    <script>
+        // Ambil parameter 'url' dari query string
+        const urlParams = new URLSearchParams(window.location.search);
+        const targetUrl = urlParams.get('url');
+        
+        // Menampilkan pesan jika URL tidak ditemukan
+        if (!targetUrl) {
+            document.body.innerHTML = "<h1>URL tidak ditemukan!</h1>";
+        }
+
+        const timerElement = document.querySelector('.timer');
+        const directLink = document.getElementById('directLink');
+        directLink.href = targetUrl; // Set link yang akan diarahkan
+
+        let timer = 10;
+        const countdown = setInterval(() => {
+            timer--;
+            timerElement.textContent = timer;
+            if (timer === 0) {
+                clearInterval(countdown);
+                window.location.href = targetUrl; // Arahkan setelah timer habis
+            }
+        }, 1000);
+    </script>
+
+</body>
+</html>
