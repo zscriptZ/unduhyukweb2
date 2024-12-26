@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Link Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .generate-button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .generate-button:hover {
+            background-color: #0056b3;
+        }
+        .redirect-section {
+            display: none;
+            margin-top: 30px;
+        }
+        .redirect-section h2 {
+            color: #333;
+        }
+        .timer {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Generate Safe Link</h1>
+        <p>Masukkan URL yang ingin Anda arahkan:</p>
+        <input type="text" id="userLink" placeholder="Masukkan URL di sini">
+        <button class="generate-button" id="generateButton">Generate Link</button>
+
+        <div class="redirect-section" id="redirectSection">
+            <h2>Anda akan diarahkan ke halaman berikutnya</h2>
+            <p>Jika Anda tidak diarahkan dalam <span class="timer">5</span> detik, klik tombol di bawah.</p>
+            <a href="#" class="redirect-button" id="redirectButton">Arahkan Saya</a>
+        </div>
+    </div>
+
+    <script>
+        // Ambil elemen-elemen dari halaman
+        const generateButton = document.getElementById('generateButton');
+        const userLinkInput = document.getElementById('userLink');
+        const redirectSection = document.getElementById('redirectSection');
+        const redirectButton = document.getElementById('redirectButton');
+        const timerElement = document.querySelector('.timer');
+        
+        // Event listener untuk tombol generate
+        generateButton.addEventListener('click', () => {
+            const userLink = userLinkInput.value.trim();
+            if (userLink) {
+                // Tampilkan bagian redirect
+                redirectSection.style.display = 'block';
+                redirectButton.href = userLink;
+
+                // Mulai timer mundur
+                let timer = 5;
+                const countdown = setInterval(() => {
+                    timer--;
+                    timerElement.textContent = timer;
+                    if (timer === 0) {
+                        clearInterval(countdown);
+                        window.location.href = userLink; // Arahkan otomatis setelah timer habis
+                    }
+                }, 1000);
+            } else {
+                alert("Masukkan URL yang valid.");
+            }
+        });
+    </script>
+
+</body>
+  </html>
