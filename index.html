@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Link Generator</title>
+    <title>Link Generator - Safelinkku</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -43,15 +43,15 @@
         .generate-button:hover {
             background-color: #0056b3;
         }
-        .redirect-section {
-            display: none;
-            margin-top: 30px;
+        .result {
+            margin-top: 20px;
         }
-        .redirect-section h2 {
-            color: #333;
+        .result a {
+            color: #007bff;
+            text-decoration: none;
         }
-        .timer {
-            font-weight: bold;
+        .result a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -59,43 +59,41 @@
 
     <div class="container">
         <h1>Generate Safe Link</h1>
-        <p>Masukkan URL yang ingin Anda arahkan:</p>
+        <p>Masukkan URL tujuan yang ingin Anda amankan:</p>
         <input type="text" id="userLink" placeholder="Masukkan URL di sini">
         <button class="generate-button" id="generateButton">Generate Link</button>
 
-        <div class="redirect-section" id="redirectSection">
-            <h2>Anda akan diarahkan ke halaman berikutnya</h2>
-            <p>Jika Anda tidak diarahkan dalam <span class="timer">5</span> detik, klik tombol di bawah.</p>
-            <a href="#" class="redirect-button" id="redirectButton">Arahkan Saya</a>
+        <div class="result" id="resultSection" style="display:none;">
+            <p>Link aman Anda telah siap. Klik di bawah ini untuk mendapatkan link redirect:</p>
+            <a href="#" id="generatedLink" target="_blank">Generated Safe Link</a>
         </div>
     </div>
 
     <script>
-        // Ambil elemen-elemen dari halaman
         const generateButton = document.getElementById('generateButton');
         const userLinkInput = document.getElementById('userLink');
-        const redirectSection = document.getElementById('redirectSection');
-        const redirectButton = document.getElementById('redirectButton');
-        const timerElement = document.querySelector('.timer');
-        
+        const resultSection = document.getElementById('resultSection');
+        const generatedLink = document.getElementById('generatedLink');
+
+        // Fungsi untuk mengenkripsi URL agar aman
+        function encodeURL(url) {
+            return encodeURIComponent(url);
+        }
+
         // Event listener untuk tombol generate
         generateButton.addEventListener('click', () => {
             const userLink = userLinkInput.value.trim();
             if (userLink) {
-                // Tampilkan bagian redirect
-                redirectSection.style.display = 'block';
-                redirectButton.href = userLink;
+                // Proses URL menjadi aman (encode)
+                const encodedLink = encodeURL(userLink);
 
-                // Mulai timer mundur
-                let timer = 5;
-                const countdown = setInterval(() => {
-                    timer--;
-                    timerElement.textContent = timer;
-                    if (timer === 0) {
-                        clearInterval(countdown);
-                        window.location.href = userLink; // Arahkan otomatis setelah timer habis
-                    }
-                }, 1000);
+                // Buat link redirect seperti safelinkku
+                const safeLink = `https://example.com/redirect?url=${encodedLink}`;
+
+                // Tampilkan hasil link yang sudah digenerate
+                generatedLink.href = safeLink;
+                generatedLink.textContent = safeLink;
+                resultSection.style.display = 'block';
             } else {
                 alert("Masukkan URL yang valid.");
             }
@@ -103,4 +101,4 @@
     </script>
 
 </body>
-  </html>
+</html>
